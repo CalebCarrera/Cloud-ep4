@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Principal</title>
+</head>
+<body>
+    <h1>Página principal en progreso......</h1>
+    <p id="mensaje"></p>
+    <button onclick="logout()">Cerrar Sesión</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if(!sessionStorage.getItem('loggedIn')) {
+                window.location.href = '/login.html';
+            }
+        });
+
+        function logout() {
+            sessionStorage.removeItem('loggedIn');
+            window.location.href = '/login.html';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Connect Plus</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="./vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="./vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="./vendors/css/vendor.bundle.base.css">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="./css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="./images/favicon.png" />
+  </head>
+  <body>
+    <div class="container-scroller">
+      <div class="container-fluid page-body-wrapper full-page-wrapper">
+        <div class="content-wrapper d-flex align-items-center auth">
+          <div class="row flex-grow">
+            <div class="col-lg-4 mx-auto">
+              <div class="auth-form-light text-left p-5">
+                <div class="brand-logo">
+                  <img src="./images/logo-dark.svg">
+                </div>
+                <h4>¿Eres nuevo?</h4>
+                <h6 class="font-weight-light">Crea tu cuenta de una forma rápida y sencilla.</h6>
+                <form id="registroForm" class="pt-3">
+                  <div class="form-group">
+                    <input type="text" class="form-control form-control-lg" id="nombres" placeholder="Introduce tus nombres" required>
+                  </div>
+                  <div class="form-group">
+                    <input type="text" class="form-control form-control-lg" id="apellidos" placeholder="Introduce tus apellidos" required>
+                  </div>
+                  <div class="form-group">
+                    <input type="email" class="form-control form-control-lg" id="email" placeholder="Introduce tu email" required>
+                  </div>
+                  <div class="form-group">
+                    <input type="password" class="form-control form-control-lg" id="password" placeholder="Introduce tu contraseña" required>
+                  </div>
+                  <div class="mt-3">
+                    <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN UP</button>
+                  </div>
+                  <p id="mensaje" class="error-message text-danger mt-3"></p>
+                  <div class="text-center mt-4 font-weight-light"> Already have an account? <a href="login.html" class="text-primary">Login</a></div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- content-wrapper ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="./vendors/js/vendor.bundle.base.js"></script>
+    <!-- inject:js -->
+    <script src="./js/off-canvas.js"></script>
+    <script src="./js/hoverable-collapse.js"></script>
+    <script src="./js/misc.js"></script>
+    <!-- Custom Script for Registration -->
+    <script>
+        document.getElementById('registroForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Obtención de los datos del formulario
+            const nombres = document.getElementById('nombres').value;
+            const apellidos = document.getElementById('apellidos').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/api/create-user/registro', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ nombres, apellidos, email, password })
+                });
+
+                if (response.ok) {
+                    alert('Usuario registrado exitosamente');
+                    window.location.href = '/login.html';
+                } else {
+                    const errorText = await response.text();
+                    document.getElementById('mensaje').textContent = `Error: ${errorText}`;
+                }
+            } catch (error) {
+                console.error('Error en la solicitud:', error);
+                document.getElementById('mensaje').textContent = 'Error al registrar el usuario';
+            }
+        });
+
+        window.addEventListener('load', () => {
+            document.querySelector('.auth-form-light').classList.add('show');
+        });
+    </script>
+    <!-- endinject -->
+  </body>
+</html>
